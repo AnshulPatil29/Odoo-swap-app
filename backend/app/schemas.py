@@ -1,6 +1,8 @@
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 
+# --- Base and Create Schemas (for INPUT) ---
+
 class SkillBase(BaseModel):
     name: str
     skill_type: str  # 'offered' or 'wanted'
@@ -17,6 +19,11 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     password: str
 
+class UserUpdate(BaseModel):
+    name: Optional[str] = None
+    location: Optional[str] = None
+    is_public: Optional[bool] = None
+
 class SwapRequestCreate(BaseModel):
     provider_id: int
     offered_skill_id: int
@@ -24,6 +31,7 @@ class SwapRequestCreate(BaseModel):
 
 class TokenData(BaseModel):
     email: Optional[str] = None
+
 
 
 class Skill(SkillBase):
