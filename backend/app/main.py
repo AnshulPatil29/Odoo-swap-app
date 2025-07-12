@@ -27,6 +27,7 @@ app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
 app.include_router(users.router, prefix="/users", tags=["Users"]) 
 app.include_router(swaps.router, prefix="/swaps", tags=["Swaps"]) 
 
+
 @app.get("/", tags=["Root"])
 def read_root():
     return {"message": "Welcome to the Skill Swap API!"}

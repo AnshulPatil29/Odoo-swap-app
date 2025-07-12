@@ -7,7 +7,7 @@ from .auth import get_current_user
 
 router = APIRouter()
 
-@router.post("/swaps/", response_model=schemas.SwapRequest)
+@router.post("/", response_model=schemas.SwapRequest)
 def create_swap(
     request: schemas.SwapRequestCreate,
     db: Session = Depends(database.get_db),
@@ -15,14 +15,14 @@ def create_swap(
 ):
     return crud.create_swap_request(db=db, request=request, requester_id=current_user.id)
 
-@router.get("/swaps/me", response_model=List[schemas.SwapRequest])
+@router.get("/me", response_model=List[schemas.SwapRequest])
 def read_my_swaps(
     db: Session = Depends(database.get_db),
     current_user: models.User = Depends(get_current_user)
 ):
     return crud.get_swap_requests_for_user(db=db, user_id=current_user.id)
 
-@router.put("/swaps/{swap_id}/respond", response_model=schemas.SwapRequest)
+@router.put("/{swap_id}/respond", response_model=schemas.SwapRequest)
 def respond_to_swap(
     swap_id: int,
     response: str,

@@ -15,7 +15,6 @@ def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(database.g
 async def read_users_me(current_user: models.User = Depends(get_current_user)):
     return current_user
 
-# --- THIS IS A NEW ENDPOINT ---
 @router.put("/me", response_model=schemas.User)
 def update_current_user(
     user_update: schemas.UserUpdate,
