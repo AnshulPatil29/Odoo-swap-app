@@ -3,17 +3,10 @@ from typing import List, Optional
 
 class SkillBase(BaseModel):
     name: str
-    skill_type: str 
+    skill_type: str  # 'offered' or 'wanted'
 
 class SkillCreate(SkillBase):
     pass
-
-class Skill(SkillBase):
-    id: int
-    user_id: int
-
-    class Config:
-        orm_mode = True
 
 class UserBase(BaseModel):
     email: EmailStr
@@ -24,17 +17,28 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     password: str
 
+class SwapRequestCreate(BaseModel):
+    provider_id: int
+    offered_skill_id: int
+    wanted_skill_id: int
+
+class TokenData(BaseModel):
+    email: Optional[str] = None
+
+
+class Skill(SkillBase):
+    id: int
+    user_id: int
+
+    class Config:
+        from_attributes = True
+
 class User(UserBase):
     id: int
     skills: List[Skill] = []
 
     class Config:
-        orm_mode = True
-
-class SwapRequestCreate(BaseModel):
-    provider_id: int
-    offered_skill_id: int
-    wanted_skill_id: int
+        from_attributes = True
 
 class SwapRequest(BaseModel):
     id: int
@@ -45,4 +49,4 @@ class SwapRequest(BaseModel):
     wanted_skill: Skill
 
     class Config:
-        orm_mode = True
+        from_attributes = True
