@@ -39,8 +39,8 @@ function EditProfilePage() {
         if (!newSkillName.trim()) return;
         try {
             await api.post('/users/me/skills', { name: newSkillName, skill_type: newSkillType });
-            setNewSkillName(''); // Clear input
-            refetchUser(); // Refetch to show new skill
+            setNewSkillName(''); 
+            refetchUser(); 
         } catch (error) { console.error("Failed to add skill", error); alert("Could not add the skill."); }
     };
 
@@ -97,7 +97,7 @@ function EditProfilePage() {
                 <div className="row g-5">
                     <div className="col-md-6">
                         <h5>Your Skills</h5> <hr className="border-secondary"/>
-                        <h6 className="text-muted">Skills You Offer</h6>
+                        <h6 className="text-light">Skills You Offer</h6>
                         <div className="d-flex flex-wrap">
                             {getSkills(user.skills, 'offered').map(skill => (
                                 <span key={skill.id} className="badge d-flex align-items-center fs-6 bg-primary-subtle text-primary-emphasis rounded-pill me-2 mb-2 p-2 ps-3">
@@ -106,7 +106,7 @@ function EditProfilePage() {
                                 </span>
                             ))}
                         </div>
-                        <h6 className="text-muted mt-3">Skills You Want</h6>
+                        <h6 className="text-light mt-3">Skills You Want</h6>
                         <div className="d-flex flex-wrap">
                             {getSkills(user.skills, 'wanted').map(skill => (
                                 <span key={skill.id} className="badge d-flex align-items-center fs-6 bg-success-subtle text-success-emphasis rounded-pill me-2 mb-2 p-2 ps-3">

@@ -8,12 +8,9 @@ import UserProfilePage from './pages/UserProfilePage.jsx';
 import EditProfilePage from './pages/EditProfilePage.jsx';
 import SwapDashboardPage from './pages/SwapDashboardPage.jsx'; 
 import ProtectedRoute from './components/ProtectedRoute.jsx';
-import './App.css'; // Import the App CSS
+import './App.css'; 
 
 function App() {
-  // THE ONLY CHANGE IS REMOVING `className="bg-light"` and the style from the div
-  // and adding a class to the main element.
-  // The rest of your code is untouched.
   return (
     <div> 
       <Navbar />

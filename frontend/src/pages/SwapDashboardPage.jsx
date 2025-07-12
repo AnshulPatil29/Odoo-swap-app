@@ -14,7 +14,7 @@ function SwapDashboardPage() {
         try {
             const response = await api.get('/swaps/me');
             setSwaps(response.data);
-        } catch (err) {
+        } catch {
             setError('Failed to load swap requests.');
         } finally {
             setLoading(false);
@@ -27,7 +27,7 @@ function SwapDashboardPage() {
         if (!window.confirm(`Are you sure you want to ${response} this swap?`)) return;
         try {
             await api.put(`/swaps/${swapId}/respond?response=${response}`);
-            fetchSwaps(); // Refetch data instead of reloading
+            fetchSwaps(); 
         } catch { alert('Failed to respond to swap.'); }
     };
 

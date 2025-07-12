@@ -4,12 +4,10 @@ from .database import engine
 from . import models
 from .api import auth, users, swaps
 
-# Creates all the tables in the database if they don't exist
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Skill Swap API")
 
-# Define the list of allowed origins
 origins = [
     "http://localhost:5173",
     "http://localhost:5174",
