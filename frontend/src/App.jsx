@@ -5,7 +5,7 @@ import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 import UserProfilePage from './pages/UserProfilePage.jsx';
 import EditProfilePage from './pages/EditProfilePage.jsx';
-import SwapDashboardPage from './pages/SwapDashboardPage.jsx'; // <-- IMPORT Dashboard
+import SwapDashboardPage from './pages/SwapDashboardPage.jsx'; 
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 function App() {
