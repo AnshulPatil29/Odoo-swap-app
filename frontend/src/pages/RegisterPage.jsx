@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
+import api from '../services/api.js';
 import { useNavigate, Link } from 'react-router-dom';
 
-function LoginPage() {
+function RegisterPage() {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [location, setLocation] = useState('');
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { login, user } = useAuth();
+  const { user, login } = useAuth();
   const navigate = useNavigate();
 
-  
   useEffect(() => {
     if (user) {
       navigate('/');
@@ -25,10 +28,24 @@ function LoginPage() {
     setLoading(true);
 
     try {
+      
+      await api.post('/auth/register', {
+        name,
+        email,
+        password,
+        location,
+        is_public: true 
+      });
+
       await login(email, password);
+
       navigate('/');
     } catch (err) {
-      setError('Failed to log in. Please check your credentials.');
+      if (err.response && err.response.data.detail) {
+        setError(err.response.data.detail); 
+      } else {
+        setError('Failed to register. Please try again.');
+      }
       console.error(err);
     } finally {
       setLoading(false);
@@ -40,12 +57,22 @@ function LoginPage() {
       <div className="col-md-6 col-lg-4">
         <div className="card shadow-sm">
           <div className="card-body p-4">
-            <h2 className="card-title text-center mb-4">Login</h2>
+            <h2 className="card-title text-center mb-4">Create Account</h2>
             
-            {/*error message if the login fails */}
             {error && <div className="alert alert-danger">{error}</div>}
 
             <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <label htmlFor="nameInput" className="form-label">Full Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="nameInput"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
               <div className="mb-3">
                 <label htmlFor="emailInput" className="form-label">Email address</label>
                 <input
@@ -55,7 +82,6 @@ function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  autoComplete="email"
                 />
               </div>
               <div className="mb-3">
@@ -67,32 +93,28 @@ function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  autoComplete="current-password"
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="locationInput" className="form-label">Location (Optional)</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="locationInput"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
                 />
               </div>
               <div className="d-grid">
                 <button type="submit" className="btn btn-primary" disabled={loading}>
-                  {loading ? (
-                    // Show a spinner while in progress
-                    <>
-                      <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                      <span role="status"> Loading...</span>
-                    </>
-                  ) : (
-                    'Login'
-                  )}
+                  {loading ? 'Creating Account...' : 'Sign Up'}
                 </button>
               </div>
             </form>
 
             <div className="text-center mt-3">
-                {/*add the route for this later */}
-                <p className="mb-1">
-                    <Link to="#">Forgot username/password?</Link>
-                </p>
-                <p className="mb-0">
-                    Don't have an account? <Link to="/register">Sign up here</Link>
-                </p>
+              <span>Already have an account? </span>
+              <Link to="/login">Login here</Link>
             </div>
           </div>
         </div>
@@ -101,4 +123,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default RegisterPage;
