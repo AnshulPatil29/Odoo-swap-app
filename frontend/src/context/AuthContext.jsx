@@ -10,6 +10,7 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         if (token) {
+            api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             api.get('/users/me')
                 .then(response => {
                     setUser(response.data);
@@ -17,6 +18,7 @@ const AuthProvider = ({ children }) => {
                 .catch(() => {
                     localStorage.removeItem('authToken');
                     setToken(null);
+                    delete api.defaults.headers.common['Authorization'];
                 })
                 .finally(() => setLoading(false));
         } else {
@@ -32,19 +34,29 @@ const AuthProvider = ({ children }) => {
         const { access_token } = response.data;
         localStorage.setItem('authToken', access_token);
         setToken(access_token);
+        api.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
     };
 
     const logout = () => {
         localStorage.removeItem('authToken');
         setToken(null);
         setUser(null);
+        delete api.defaults.headers.common['Authorization'];
+    };
+    
+    const refetchUser = () => {
+        setLoading(true);
+        api.get('/users/me')
+            .then(response => setUser(response.data))
+            .catch(() => logout())
+            .finally(() => setLoading(false));
     };
 
-    const value = { user, token, login, logout, loading };
+    const value = { user, token, login, logout, loading, refetchUser };
 
     return (
         <AuthContext.Provider value={value}>
-            {!loading && children}
+            {children}
         </AuthContext.Provider>
     );
 };

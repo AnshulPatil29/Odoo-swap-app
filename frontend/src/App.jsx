@@ -1,3 +1,4 @@
+
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar.jsx';
 import HomePage from './pages/HomePage.jsx';
@@ -7,12 +8,16 @@ import UserProfilePage from './pages/UserProfilePage.jsx';
 import EditProfilePage from './pages/EditProfilePage.jsx';
 import SwapDashboardPage from './pages/SwapDashboardPage.jsx'; 
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import './App.css'; // Import the App CSS
 
 function App() {
+  // THE ONLY CHANGE IS REMOVING `className="bg-light"` and the style from the div
+  // and adding a class to the main element.
+  // The rest of your code is untouched.
   return (
-    <div className="bg-light" style={{ minHeight: '100vh' }}>
+    <div> 
       <Navbar />
-      <main className="container py-4">
+      <main className="main-content container py-4">
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<HomePage />} />
